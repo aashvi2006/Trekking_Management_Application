@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-xl-2 mb-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-success text-white text-center">
+                    <h5 class="mb-0">
+                        <i class="bi bi-speedometer2"></i>
+                        Admin Panel
+                    </h5>
+                </div>
+
+                <div class="list-group list-group-flush">
+
+                    <a href="#"
+                       class="list-group-item list-group-item-action active">
+                        <i class="bi bi-house-door-fill"></i>
+                        Dashboard
+                    </a>
+
+                    <a href="{{ url_for('manage_treks') }}"
+                       class="list-group-item list-group-item-action">
+                        <i class="bi bi-map"></i>
+                        Manage Treks
+                    </a>
+
+                    <a href="{{ url_for('manage_staff') }}"
+                       class="list-group-item list-group-item-action">
+                        <i class="bi bi-person-badge"></i>
+                        Manage Staff
+                    </a>
+
+                    <a href="{{ url_for('manage_trekkers') }}"
+                       class="list-group-item list-group-item-action">
+                        <i class="bi bi-people"></i>
+                        Manage Trekkers
+                    </a>
+
+                    <a href="{{ url_for('admin_bookings') }}"
+                       class="list-group-item list-group-item-action">
+                        <i class="bi bi-calendar-check"></i>
+                        Bookings
+                    </a>
+
+                    <a href="{{ url_for('admin_trek_history') }}"
+                       class="list-group-item list-group-item-action">
+                        <i class="bi bi-clock-history"></i>
+                        Trek History
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Main Content -->
+        <div class="col-lg-9 col-xl-10">
+
+            <!-- Welcome -->
+            <div class="mb-4">
+                <h2>
+                    Welcome, {{ current_user.username }}
+                </h2>
+
+                <p class="text-muted">
+                    Trekking Management System - Admin Dashboard
+                </p>
+            </div>
+
+
+            <!-- Statistics -->
+            <div class="row g-4">
+
+                <!-- Total Treks -->
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-body text-center">
+
+                            <i class="bi bi-map-fill display-5 text-success"></i>
+
+                            <h3 class="mt-3">
+                                {{ total_treks }}
+                            </h3>
+
+                            <p class="text-muted mb-0">
+                                Total Treks
+                            </p>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- Staff -->
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-body text-center">
+
+                            <i class="bi bi-person-badge-fill display-5 text-primary"></i>
+
+                            <h3 class="mt-3">
+                                {{ total_staff }}
+                            </h3>
+
+                            <p class="text-muted mb-0">
+                                Staff Members
+                            </p>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- Trekkers -->
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-body text-center">
+
+                            <i class="bi bi-people-fill display-5 text-warning"></i>
+
+                            <h3 class="mt-3">
+                                {{ total_trekkers }}
+                            </h3>
+
+                            <p class="text-muted mb-0">
+                                Trekkers
+                            </p>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- Bookings -->
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-body text-center">
+
+                            <i class="bi bi-calendar-check-fill display-5 text-danger"></i>
+
+                            <h3 class="mt-3">
+                                {{ total_bookings }}
+                            </h3>
+
+                            <p class="text-muted mb-0">
+                                Bookings
+                            </p>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Quick Actions -->
+            <div class="card shadow-sm mt-5">
+
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        Quick Actions
+                    </h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6 col-lg-4">
+                            <a href="{{ url_for('add_trek') }}"
+                               class="btn btn-success w-100">
+                                <i class="bi bi-plus-circle"></i>
+                                Add Trek
+                            </a>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <a href="{{ url_for('manage_staff') }}"
+                               class="btn btn-primary w-100">
+                                <i class="bi bi-person-check"></i>
+                                Manage Staff
+                            </a>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <a href="{{ url_for('manage_trekkers') }}"
+                               class="btn btn-warning w-100">
+                                <i class="bi bi-people"></i>
+                                Manage Trekkers
+                            </a>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <a href="{{ url_for('manage_treks') }}"
+                               class="btn btn-info w-100 text-white">
+                                <i class="bi bi-map"></i>
+                                Manage Treks
+                            </a>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <a href="{{ url_for('admin_bookings') }}"
+                               class="btn btn-secondary w-100">
+                                <i class="bi bi-calendar-check"></i>
+                                View Bookings
+                            </a>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <a href="{{ url_for('admin_trek_history') }}"
+                               class="btn btn-dark w-100">
+                                <i class="bi bi-clock-history"></i>
+                                Trek History
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

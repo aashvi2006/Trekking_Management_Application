@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .register-box {
+        max-width: 700px;
+        margin: 40px auto;
+    }
+
+    .register-title {
+        background-color: #2f6b45;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .register-form {
+        background-color: white;
+        padding: 30px;
+        border: 1px solid #ddd;
+        border-top: none;
+        border-radius: 0 0 8px 8px;
+    }
+
+    .register-form h5 {
+        color: #2f6b45;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 8px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .register-form .form-control,
+    .register-form .form-select {
+        border-radius: 5px;
+    }
+
+    .register-btn {
+        background-color: #2f6b45;
+        border: none;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .register-btn:hover {
+        background-color: #245536;
+    }
+
+    .register-links {
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="container">
+    <div class="register-box">
+
+        <div class="register-title">
+            <h3 class="mb-1">Trekker Registration</h3>
+            <p class="mb-0">Create your account and start exploring</p>
+        </div>
+
+        <div class="register-form">
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+
+                <h5>Account Details</h5>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" required>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+
+                <h5>Personal Details</h5>
+
+                <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" name="full_name" required>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Age</label>
+                        <input type="number" class="form-control" name="age" min="1" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Gender</label>
+                        <select class="form-select" name="gender" required>
+                            <option value="" selected disabled>Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Phone</label>
+                    <input type="text" class="form-control" name="phone" required>
+                </div>
+
+                <h5>Emergency Details</h5>
+
+                <div class="mb-3">
+                    <label class="form-label">Emergency Contact</label>
+                    <input type="text" class="form-control" name="emergency_contact" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Address</label>
+                    <textarea class="form-control" name="address" rows="3" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success register-btn">
+                    Register as Trekker
+                </button>
+
+            </form>
+
+            <div class="register-links">
+                <p class="mb-2">
+                    Want to register as staff?
+                    <a href="{{ url_for('register_staff') }}">Register as Staff</a>
+                </p>
+
+                <p class="mb-0">
+                    Already have an account?
+                    <a href="{{ url_for('login') }}">Login</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

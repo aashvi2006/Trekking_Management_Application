@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3>
+
+                Edit Staff
+
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <p class="text-muted">
+
+                Only change the fields you need to update &mdash;
+                everything else stays exactly as it is. Leave the
+                password blank to keep the current one.
+
+            </p>
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>Username</label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="username"
+                            value="{{ staff.user.username }}"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>Email</label>
+
+                        <input
+                            type="email"
+                            class="form-control"
+                            name="email"
+                            value="{{ staff.user.email }}"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>Password</label>
+
+                        <input
+                            type="password"
+                            class="form-control"
+                            name="password"
+                            placeholder="Leave blank to keep current password">
+
+                        <div class="form-text">
+
+                            Only fill this in if you want to reset
+                            the password.
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>Full Name</label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="full_name"
+                            value="{{ staff.full_name }}"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>Phone</label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="phone"
+                            value="{{ staff.phone }}"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>Experience (Years)</label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            name="experience"
+                            value="{{ staff.experience }}"
+                            min="0"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>Approval Status</label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            value="{{ 'Approved' if staff.is_approved else 'Pending' }}"
+                            disabled>
+
+                        <div class="form-text">
+
+                            Change this from Manage Staff, not here.
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>Blacklist Status</label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            value="{{ 'Blacklisted' if staff.is_blacklisted else 'Not Blacklisted' }}"
+                            disabled>
+
+                        <div class="form-text">
+
+                            Change this from Manage Staff, not here.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="btn btn-primary">
+
+                    Update Staff
+
+                </button>
+
+                <a href="{{ url_for('manage_staff') }}"
+                   class="btn btn-secondary">
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

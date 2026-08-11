@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>
+
+                Booking Records
+
+            </h2>
+
+            <p class="text-muted">
+
+                View every trek booking in the system.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+
+            <h5 class="mb-0">
+
+                All Bookings
+
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover table-bordered align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Trekker</th>
+                        <th>Trek</th>
+                        <th>Booking Date</th>
+                        <th>Booking Status</th>
+                        <th>Payment Status</th>
+                        <th>Trek Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% if bookings %}
+
+                        {% for booking in bookings %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ booking.id }}
+
+                            </td>
+
+                            <td>
+
+                                {{ booking.trekker.full_name }}
+
+                            </td>
+
+                            <td>
+
+                                {{ booking.trek.trek_name }}
+
+                            </td>
+
+                            <td>
+
+                                {{ booking.booking_date.strftime("%d-%m-%Y") }}
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-primary">
+
+                                    {{ booking.booking_status }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success">
+
+                                    {{ booking.payment_status }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-info">
+
+                                    {{ booking.trek.status }}
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="7"
+                                class="text-center text-muted py-4">
+
+                                No Booking Records Found
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

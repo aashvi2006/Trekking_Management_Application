@@ -1,0 +1,606 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-lg-3 col-xl-2 mb-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-warning text-dark text-center">
+
+                    <h5 class="mb-0">
+
+                        <i class="bi bi-person-circle"></i>
+                        Trekker Panel
+
+                    </h5>
+
+                </div>
+
+                <div class="list-group list-group-flush">
+
+                    <a
+                        href="{{ url_for('user_dashboard') }}"
+                        class="list-group-item list-group-item-action active">
+
+                        <i class="bi bi-house-door-fill"></i>
+                        Dashboard
+
+                    </a>
+
+                    <a
+                        href="#available-treks"
+                        class="list-group-item list-group-item-action">
+
+                        <i class="bi bi-map"></i>
+                        Available Treks
+
+                    </a>
+
+                    <a
+                        href="#booked-treks"
+                        class="list-group-item list-group-item-action">
+
+                        <i class="bi bi-calendar-check"></i>
+                        My Bookings
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('user_profile') }}"
+                        class="list-group-item list-group-item-action">
+
+                        <i class="bi bi-person"></i>
+                        My Profile
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('user_history') }}"
+                        class="list-group-item list-group-item-action">
+
+                        <i class="bi bi-clock-history"></i>
+                        My History
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-9 col-xl-10">
+
+            <div class="mb-4">
+
+                <h2>
+
+                    Welcome,
+                    {{ current_user.trekker.full_name }}
+
+                </h2>
+
+                <p class="text-muted">
+
+                    Explore available treks and manage your bookings.
+
+                </p>
+
+            </div>
+
+            <div class="row g-4 mb-5">
+
+                <div class="col-md-4">
+
+                    <div class="card shadow border-0 h-100">
+
+                        <div class="card-body text-center">
+
+                            <i class="bi bi-map-fill display-5 text-warning"></i>
+
+                            <h3 class="mt-3">
+
+                                {{ available_treks|length }}
+
+                            </h3>
+
+                            <p class="text-muted mb-0">
+
+                                Available Treks
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card shadow border-0 h-100">
+
+                        <div class="card-body text-center">
+
+                            <i class="bi bi-calendar-check-fill display-5 text-success"></i>
+
+                            <h3 class="mt-3">
+
+                                {{ bookings|length }}
+
+                            </h3>
+
+                            <p class="text-muted mb-0">
+
+                                My Bookings
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card shadow border-0 h-100">
+
+                        <div class="card-body text-center">
+
+                            <i class="bi bi-person-check-fill display-5 text-primary"></i>
+
+                            <h3 class="mt-3">
+
+                                {{ current_user.trekker.gender }}
+
+                            </h3>
+
+                            <p class="text-muted mb-0">
+
+                                Profile
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="card shadow mb-4">
+
+    <div class="card-header bg-warning">
+
+        <h5 class="mb-0">
+
+            <i class="bi bi-search"></i>
+            Find a Trek
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <form method="GET"
+              action="{{ url_for('user_dashboard') }}">
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Search
+                    </label>
+
+                    <input
+                        type="text"
+                        name="search"
+                        class="form-control"
+                        placeholder="Trek name or location"
+                        value="{{ search }}">
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Difficulty
+                    </label>
+
+                    <select
+                        name="difficulty"
+                        class="form-select">
+
+                        <option value="">
+                            All Difficulties
+                        </option>
+
+                        <option value="Easy"
+                            {% if difficulty == "Easy" %}
+                                selected
+                            {% endif %}>
+                            Easy
+                        </option>
+
+                        <option value="Moderate"
+                            {% if difficulty == "Moderate" %}
+                                selected
+                            {% endif %}>
+                            Moderate
+                        </option>
+
+                        <option value="Hard"
+                            {% if difficulty == "Hard" %}
+                                selected
+                            {% endif %}>
+                            Hard
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        name="location"
+                        class="form-control"
+                        placeholder="Enter location"
+                        value="{{ location }}">
+
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-warning w-100">
+
+                                    <i class="bi bi-search"></i>
+                                    Search
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <div
+                class="card shadow mb-5"
+                id="available-treks">
+
+                <div class="card-header bg-warning">
+
+                    <h5 class="mb-0">
+
+                        <i class="bi bi-map"></i>
+                        Available Treks
+
+                    </h5>
+
+                </div>
+
+                <div class="table-responsive">
+
+                    <table
+                        class="table table-hover table-bordered align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>ID</th>
+                                <th>Trek</th>
+                                <th>Location</th>
+                                <th>Difficulty</th>
+                                <th>Duration</th>
+                                <th>Available Slots</th>
+                                <th>Dates</th>
+                                <th>Status</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% if available_treks %}
+
+                                {% for trek in available_treks %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ trek.id }}
+                                    </td>
+
+                                    <td>
+                                        {{ trek.trek_name }}
+                                    </td>
+
+                                    <td>
+                                        {{ trek.location }}
+                                    </td>
+
+                                    <td>
+                                        {{ trek.difficulty }}
+                                    </td>
+
+                                    <td>
+                                        {{ trek.duration }} Days
+                                    </td>
+
+                                    <td>
+                                        {{ trek.available_slots }}
+                                    </td>
+
+                                    <td>
+
+                                        {% if trek.start_date %}
+                                            {{ trek.start_date }}
+                                        {% endif %}
+
+                                        -
+
+                                        {% if trek.end_date %}
+                                            {{ trek.end_date }}
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge bg-success">
+                                            Open
+                                        </span>
+
+                                    </td>
+                                    <td>
+
+                                        <form
+                                            method="POST"
+                                            action="{{ url_for('book_trek', trek_id=trek.id) }}">
+
+                                            <button
+                                                type="submit"
+                                                class="btn btn-warning btn-sm">
+
+                                                <i class="bi bi-calendar-plus"></i>
+                                                Book Trek
+
+                                            </button>
+
+                                        </form>
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            {% else %}
+
+                                <tr>
+
+                                    <td
+                                        colspan="9"
+                                        class="text-center text-muted py-5">
+
+                                        <i class="bi bi-map display-5 d-block mb-3"></i>
+
+                                        <h5>
+                                            No Available Treks
+                                        </h5>
+
+                                        <p class="mb-0">
+                                            There are currently no open treks
+                                            with available slots.
+                                        </p>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endif %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div
+                class="card shadow"
+                id="booked-treks">
+
+                <div class="card-header bg-warning">
+
+                    <h5 class="mb-0">
+
+                        <i class="bi bi-calendar-check"></i>
+                        My Bookings
+
+                    </h5>
+
+                </div>
+
+                <div class="table-responsive">
+
+                    <table
+                        class="table table-hover table-bordered align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>Booking ID</th>
+                                <th>Trek</th>
+                                <th>Booking Date</th>
+                                <th>Booking Status</th>
+                                <th>Trek Status</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% if bookings %}
+
+                                {% for booking in bookings %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ booking.id }}
+                                    </td>
+
+                                    <td>
+                                        {{ booking.trek.trek_name }}
+                                    </td>
+
+                                    <td>
+
+                                        {% if booking.booking_date %}
+
+                                            {{ booking.booking_date.strftime("%d-%m-%Y") }}
+
+                                        {% else %}
+
+                                            -
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+
+                                        {% if booking.booking_status == "Booked" %}
+
+                                            <span class="badge bg-success">
+                                                Booked
+                                            </span>
+
+                                        {% elif booking.booking_status == "Completed" %}
+
+                                            <span class="badge bg-primary">
+                                                Completed
+                                            </span>
+
+                                        {% elif booking.booking_status == "Cancelled" %}
+
+                                            <span class="badge bg-danger">
+                                                Cancelled
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge bg-secondary">
+                                                {{ booking.booking_status }}
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+
+                                        {% if booking.trek.status == "Open" %}
+
+                                            <span class="badge bg-success">
+                                                Open
+                                            </span>
+
+                                        {% elif booking.trek.status == "Ongoing" %}
+
+                                            <span class="badge bg-primary">
+                                                Ongoing
+                                            </span>
+
+                                        {% elif booking.trek.status == "Completed" %}
+
+                                            <span class="badge bg-dark">
+                                                Completed
+                                            </span>
+
+                                        {% elif booking.trek.status == "Closed" %}
+
+                                            <span class="badge bg-danger">
+                                                Closed
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge bg-warning text-dark">
+                                                {{ booking.trek.status }}
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            {% else %}
+
+                                <tr>
+
+                                    <td
+                                        colspan="5"
+                                        class="text-center text-muted py-5">
+
+                                        <i class="bi bi-calendar-x display-5 d-block mb-3"></i>
+
+                                        <h5>
+                                            No Bookings Yet
+                                        </h5>
+
+                                        <p class="mb-0">
+                                            Your booked treks will appear here.
+                                        </p>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endif %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>
+                <i class="bi bi-clock-history"></i>
+                Trekking History
+            </h2>
+
+            <p class="text-muted mb-0">
+                View your complete booking and trekking history.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-header bg-warning">
+
+            <h5 class="mb-0">
+
+                <i class="bi bi-journal-text"></i>
+                My Trekking Records
+
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table
+                class="table table-hover table-bordered align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Booking ID</th>
+                        <th>Trek</th>
+                        <th>Location</th>
+                        <th>Booking Date</th>
+                        <th>Completion Date</th>
+                        <th>Booking Status</th>
+                        <th>Trek Status</th>
+                        <th>Payment Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% if bookings %}
+
+                        {% for booking in bookings %}
+
+                        <tr>
+
+                            <td>
+                                {{ booking.id }}
+                            </td>
+
+                            <td>
+                                {{ booking.trek.trek_name }}
+                            </td>
+
+                            <td>
+                                {{ booking.trek.location }}
+                            </td>
+
+                            <td>
+
+                                {% if booking.booking_date %}
+
+                                    {{ booking.booking_date.strftime("%d-%m-%Y") }}
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if booking.completed_date %}
+
+                                    {{ booking.completed_date.strftime("%d-%m-%Y %H:%M") }}
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if booking.booking_status == "Booked" %}
+
+                                    <span class="badge bg-success">
+                                        Booked
+                                    </span>
+
+                                {% elif booking.booking_status == "Cancelled" %}
+
+                                    <span class="badge bg-danger">
+                                        Cancelled
+                                    </span>
+
+                                {% elif booking.booking_status == "Completed" %}
+
+                                    <span class="badge bg-primary">
+                                        Completed
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+                                        {{ booking.booking_status }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if booking.trek.status == "Open" %}
+
+                                    <span class="badge bg-success">
+                                        Open
+                                    </span>
+
+                                {% elif booking.trek.status == "Ongoing" %}
+
+                                    <span class="badge bg-primary">
+                                        Ongoing
+                                    </span>
+
+                                {% elif booking.trek.status == "Completed" %}
+
+                                    <span class="badge bg-dark">
+                                        Completed
+                                    </span>
+
+                                {% elif booking.trek.status == "Closed" %}
+
+                                    <span class="badge bg-danger">
+                                        Closed
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        {{ booking.trek.status }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if booking.payment_status == "Paid" %}
+
+                                    <span class="badge bg-success">
+                                        Paid
+                                    </span>
+
+                                {% elif booking.payment_status == "Pending" %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        Pending
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+                                        {{ booking.payment_status }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+
+                            <td
+                                colspan="8"
+                                class="text-center text-muted py-5">
+
+                                <i class="bi bi-clock-history display-5 d-block mb-3"></i>
+
+                                <h5>
+                                    No Trekking History
+                                </h5>
+
+                                <p class="mb-0">
+                                    Your bookings will appear here.
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .register-box {
+        max-width: 650px;
+        margin: 40px auto;
+    }
+
+    .register-title {
+        background-color: #2f6b45;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .register-form {
+        background-color: white;
+        padding: 30px;
+        border: 1px solid #ddd;
+        border-top: none;
+        border-radius: 0 0 8px 8px;
+    }
+
+    .register-form h5 {
+        color: #2f6b45;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 8px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .register-form .form-control {
+        border-radius: 5px;
+    }
+
+    .register-btn {
+        background-color: #2f6b45;
+        border: none;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .register-btn:hover {
+        background-color: #245536;
+    }
+
+    .register-links {
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="container">
+    <div class="register-box">
+
+        <div class="register-title">
+            <h3 class="mb-1">Staff Registration</h3>
+            <p class="mb-0">Create your staff account</p>
+        </div>
+
+        <div class="register-form">
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="alert alert-info">
+                Staff accounts need to be approved by the Admin before you can log in.
+            </div>
+
+            <form method="POST">
+
+                <h5>Account Details</h5>
+
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-control" name="username" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+
+                <h5>Staff Details</h5>
+
+                <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" name="full_name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Phone</label>
+                    <input type="text" class="form-control" name="phone" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Experience (Years)</label>
+                    <input type="number" class="form-control" name="experience" min="0" required>
+                </div>
+
+                <button type="submit" class="btn btn-success register-btn">
+                    Register as Staff
+                </button>
+
+            </form>
+
+            <div class="register-links">
+                <p class="mb-2">
+                    Want to register as a trekker?
+                    <a href="{{ url_for('register_trekker') }}">Register as Trekker</a>
+                </p>
+
+                <p class="mb-0">
+                    Already have an account?
+                    <a href="{{ url_for('login') }}">Login</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+
+            <h3>
+
+                Edit Trek
+
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>Trek Name</label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="trek_name"
+                            value="{{ trek.trek_name }}"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>Location</label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="location"
+                            value="{{ trek.location }}"
+                            required>
+
+                    </div>
+
+                    <div class="col-12 mb-3">
+
+                        <label>Description</label>
+
+                        <textarea
+                            class="form-control"
+                            name="description"
+                            rows="3">{{ trek.description }}</textarea>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>Difficulty</label>
+
+                        <select
+                            class="form-select"
+                            name="difficulty">
+
+                            <option value="Easy"
+                            {% if trek.difficulty=="Easy" %}selected{% endif %}>
+                            Easy
+                            </option>
+
+                            <option value="Moderate"
+                            {% if trek.difficulty=="Moderate" %}selected{% endif %}>
+                            Moderate
+                            </option>
+
+                            <option value="Hard"
+                            {% if trek.difficulty=="Hard" %}selected{% endif %}>
+                            Hard
+                            </option>
+
+                            </select>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>Duration (Days)</label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            name="duration"
+                            value="{{ trek.duration }}"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>Total Slots</label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            name="total_slots"
+                            value="{{ trek.total_slots }}"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>Start Date</label>
+
+                        <input
+                            type="datetime-local"
+                            class="form-control"
+                            name="start_date"
+                            value="{{ trek.start_date.strftime('%Y-%m-%dT%H:%M') if trek.start_date else '' }}"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>End Date</label>
+
+                        <input
+                            type="datetime-local"
+                            class="form-control"
+                            name="end_date"
+                            value="{{ trek.end_date.strftime('%Y-%m-%dT%H:%M') if trek.end_date else '' }}"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>Status</label>
+
+                        <select
+                            class="form-select"
+                            name="status">
+
+                            <option
+                                {% if trek.status=="Pending" %}selected{% endif %}>
+                                Pending
+                            </option>
+
+                            <option
+                                {% if trek.status=="Approved" %}selected{% endif %}>
+                                Approved
+                            </option>
+
+                            <option
+                                {% if trek.status=="Open" %}selected{% endif %}>
+                                Open
+                            </option>
+
+                            <option
+                                {% if trek.status=="Closed" %}selected{% endif %}>
+                                Closed
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label>Assign Staff</label>
+
+                        <select
+                            class="form-select"
+                            name="assigned_staff_id">
+
+                            <option value="">
+
+                                Not Assigned
+
+                            </option>
+
+                            {% for staff in staff_members %}
+
+                                <option
+                                value="{{ staff.user_id }}"
+                                {% if trek.assigned_staff_id==staff.user_id %}selected{% endif %}>
+
+                                {{ staff.full_name }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="btn btn-success">
+
+                    Update Trek
+
+                </button>
+
+                <a href="{{ url_for('manage_treks') }}"
+                   class="btn btn-secondary">
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

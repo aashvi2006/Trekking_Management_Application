@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Trekking Management System</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        footer {
+            flex-shrink: 0;
+        }
+
+    </style>
+
+    {% block extra_head %}{% endblock %}
+
+</head>
+
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow">
+
+        <div class="container">
+
+            <a class="navbar-brand fw-bold"
+               href="/">
+                <i class="bi bi-tree-fill"></i>
+                Trekking Management System
+            </a>
+
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <div class="collapse navbar-collapse"
+                 id="navbarNav">
+
+                <ul class="navbar-nav ms-auto">
+
+                    {% if current_user.is_authenticated %}
+
+                        <li class="nav-item">
+
+                            <span class="nav-link">
+
+                                <i class="bi bi-person-circle"></i>
+
+                                {{ current_user.username }}
+
+                            </span>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               href="{{ url_for('logout') }}">
+
+                                <i class="bi bi-box-arrow-right"></i>
+
+                                Logout
+
+                            </a>
+
+                        </li>
+
+                    {% else %}
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               href="{{ url_for('login') }}">
+
+                                Login
+
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               id="registerDropdown"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+
+                                Register
+
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end"
+                                aria-labelledby="registerDropdown">
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{{ url_for('register_trekker') }}">
+                                        <i class="bi bi-person-walking"></i>
+                                        Register as Trekker
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{{ url_for('register_staff') }}">
+                                        <i class="bi bi-person-badge"></i>
+                                        Register as Staff
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+                    {% endif %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <div class="container mt-4">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+                        {{ message }}
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert">
+                        </button>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+    </div>
+
+    {% if current_user.is_authenticated %}
+
+        {% set dashboard_endpoint =
+            "admin_dashboard" if current_user.role == "admin"
+            else "staff_dashboard" if current_user.role == "staff"
+            else "user_dashboard" %}
+
+        {% if request.endpoint != dashboard_endpoint and request.endpoint != "home" %}
+
+            <div class="container mt-3">
+
+                <div class="d-flex justify-content-end">
+
+                    <a href="{{ url_for(dashboard_endpoint) }}"
+                       class="btn btn-secondary">
+
+                        <i class="bi bi-arrow-left"></i>
+                        Dashboard
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+    {% endif %}
+
+    <main class="container my-4">
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+
+        <div class="container">
+
+            <small>
+
+                Trekking Management System © 2026
+
+            </small>
+
+        </div>
+
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
