@@ -1,5 +1,3 @@
-# 24f2004405
-
 # Trekking Management Application
 
 A role-based web application developed as part of the Modern Application Development-I course.
